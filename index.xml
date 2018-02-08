@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jiang&#39;s Blog</title>
+    <link>/</link>
+    <description>Recent content on Jiang&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Commenly-used Script</title>
+      <link>/2018/02/06/commenly-used-script/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/06/commenly-used-script/</guid>
+      <description>Missing Value Unique Others   When I have to use R, Python, SAS, SQL, and Bash at the same time in different projects, to make the transfer easier, I built a list of the commonly used script for reference.
+At the beginning, a data set with missing and duplicated values were simulated. This data set was also saved to the feather format, which can be consumed by Python, too.</description>
+    </item>
+    
+    <item>
+      <title>Jiang Li</title>
+      <link>/about/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>I am a data modeling analyst using R/Python/SAS, a Ph.D. in physics, an enthusiastic volunteer teaching math, and a proud dad of three amazing kids.
+ Email: jiangliemail at gmail dot com Twitter: @Jiang_Li1 LinkedIn  </description>
+    </item>
+    
+  </channel>
+</rss>
