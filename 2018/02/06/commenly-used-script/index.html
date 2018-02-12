@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.30.2" />
+<meta name="generator" content="Hugo 0.36" />
 
 
 <title>Commenly-used Script - Jiang&#39;s Blog</title>
@@ -57,7 +57,7 @@
 
   <article class="article">
     
-    <span class="article-duration">2 min read</span>
+    <span class="article-duration">3 min read</span>
     
 
     <h1 class="article-title">Commenly-used Script</h1>
@@ -69,56 +69,152 @@
     <div class="article-content">
       <div id="TOC">
 <ul>
+<li><a href="#row-count-column-names-and-data-types">row count, column names and data types</a></li>
 <li><a href="#missing-value">Missing Value</a></li>
 <li><a href="#unique">Unique</a></li>
-<li><a href="#others">Others</a></li>
+<li><a href="#frequency">Frequency</a></li>
+<li><a href="#aggregation">Aggregation</a></li>
+<li><a href="#merge">Merge</a></li>
+<li><a href="#reshape">Reshape</a></li>
 </ul>
 </div>
 
-<p>When I have to use R, Python, SAS, SQL, and Bash at the same time in different projects, to make the transfer easier, I built a list of the commonly used script for reference.</p>
+<p>I often use R, Python, SAS, SQL, and Bash in different tasks at the same time. To make the transfer easier, here a list of the commonly-used script was built for a quick reference.</p>
 <p>At the beginning, a data set with missing and duplicated values were simulated. This data set was also saved to the feather format, which can be consumed by Python, too.</p>
 <pre class="r"><code>set.seed(1)
 N &lt;- 1000
-x1 &lt;- sample(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), N, replace = TRUE)
-x2 &lt;- sample(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), N, replace = TRUE)
-x3 &lt;- sample(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), N, replace = TRUE)
-x4 &lt;- sample(1:10)
-x5 &lt;- sample(1:10)
-df &lt;- data.frame(x1, x2, x3, x4, x5)
+class &lt;- sample(
+  seq(
+    as.Date(&quot;2012/01/01&quot;),
+    as.Date(&quot;2012/01/31&quot;),
+    by = &quot;day&quot;
+  ),
+  N,
+  replace = T
+)
+date &lt;- sample(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), N, replace = TRUE)
+value1 &lt;- sample(1:10)
+value2 &lt;- sample(1:10)
+df &lt;- data.frame(class, date, value1, value2)
 
-for(i in 1:ncol(df)) { # Some missings
-  df[ , i][sample(1:nrow(df), sample(10:50))] &lt;- NA
+for (i in 1:ncol(df)) { # Some missings
+  df[, i][sample(1:nrow(df), sample(10:50))] &lt;- NA
 }
 
 library(feather)
 path &lt;- &quot;my_data.feather&quot;
 write_feather(df, path)</code></pre>
-<div id="missing-value" class="section level2">
-<h2>Missing Value</h2>
+<div id="row-count-column-names-and-data-types" class="section level2">
+<h2>row count, column names and data types</h2>
 <div id="r" class="section level3">
 <h3>R</h3>
-<pre class="r"><code>colSums(is.na(df))</code></pre>
-<pre><code>## x1 x2 x3 x4 x5 
-## 11 26 45 47 35</code></pre>
+<pre class="r"><code>nrow(df)</code></pre>
+<pre><code>## [1] 1000</code></pre>
+<pre class="r"><code>df %&gt;% count()</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1  1000</code></pre>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>## [1] &quot;class&quot;  &quot;date&quot;   &quot;value1&quot; &quot;value2&quot;</code></pre>
+<pre class="r"><code>lapply(df, class)</code></pre>
+<pre><code>## $class
+## [1] &quot;Date&quot;
+## 
+## $date
+## [1] &quot;factor&quot;
+## 
+## $value1
+## [1] &quot;integer&quot;
+## 
+## $value2
+## [1] &quot;integer&quot;</code></pre>
 </div>
 <div id="python" class="section level3">
+<h3>Python</h3>
+<pre class="python"><code>import feather
+path = &#39;my_data.feather&#39;
+df = feather.read_dataframe(path)
+print(df.shape[0])</code></pre>
+<pre><code>## 1000</code></pre>
+<pre class="python"><code>print(list(df))</code></pre>
+<pre><code>## [&#39;class&#39;, &#39;date&#39;, &#39;value1&#39;, &#39;value2&#39;]</code></pre>
+<pre class="python"><code>print(df.dtypes)</code></pre>
+<pre><code>## class     datetime64[ns]
+## date            category
+## value1           float64
+## value2           float64
+## dtype: object</code></pre>
+</div>
+<div id="sas" class="section level3">
+<h3>SAS</h3>
+<pre><code>PROC CONTENTS DATA=df;
+RUN;</code></pre>
+</div>
+<div id="sql" class="section level3">
+<h3>SQL</h3>
+<pre class="sql"><code>SELECT COUNT(*) FROM df
+
+SELECT TOP 0 * FROM df
+  
+SELECT * FROM INFORMATION_SCHEMA.COLUMNS  </code></pre>
+</div>
+<div id="bash" class="section level3">
+<h3>Bash</h3>
+<pre class="bash"><code>wc -l &lt; filename
+
+head -1 filename</code></pre>
+</div>
+</div>
+<div id="missing-value" class="section level2">
+<h2>Missing Value</h2>
+<ol style="list-style-type: decimal">
+<li>Count by column</li>
+<li>Drop</li>
+</ol>
+<ul>
+<li>row with missing values</li>
+<li>row with all missing values</li>
+<li>column with missing values</li>
+<li>column with all missing values</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Fill</li>
+</ol>
+<ul>
+<li>data frame</li>
+<li>column</li>
+</ul>
+<div id="r-1" class="section level3">
+<h3>R</h3>
+<pre class="r"><code>colSums(is.na(df))</code></pre>
+<pre><code>##  class   date value1 value2 
+##     22     22     34     34</code></pre>
+<pre class="r"><code>no_missing &lt;- na.omit(df)
+colSums(is.na(no_missing))</code></pre>
+<pre><code>##  class   date value1 value2 
+##      0      0      0      0</code></pre>
+<pre class="r"><code>no_all_row_missing &lt;- df[rowSums(is.na(df))!=ncol(df), ]</code></pre>
+<pre class="r"><code>print(&quot;test&quot;)</code></pre>
+<pre><code>## [1] &quot;test&quot;</code></pre>
+</div>
+<div id="python-1" class="section level3">
 <h3>Python</h3>
 <pre class="python"><code>import feather
 import pandas as pd
 path = &#39;my_data.feather&#39;
 DF = feather.read_dataframe(path)
 print(DF.isnull().sum())</code></pre>
-<pre><code>## x1    11
-## x2    26
-## x3    45
-## x4    47
-## x5    35
+<pre><code>## class     22
+## date      22
+## value1    34
+## value2    34
 ## dtype: int64</code></pre>
 </div>
 </div>
 <div id="unique" class="section level2">
 <h2>Unique</h2>
-<div id="r-1" class="section level3">
+<div id="r-2" class="section level3">
 <h3>R</h3>
 <pre class="r"><code>df &lt;- iris
 
@@ -142,8 +238,18 @@ colnames(df)</code></pre>
 df &lt;- df %&gt;% distinct()</code></pre>
 </div>
 </div>
-<div id="others" class="section level2">
-<h2>Others</h2>
+<div id="frequency" class="section level2">
+<h2>Frequency</h2>
+<p>one and two variables</p>
+</div>
+<div id="aggregation" class="section level2">
+<h2>Aggregation</h2>
+</div>
+<div id="merge" class="section level2">
+<h2>Merge</h2>
+</div>
+<div id="reshape" class="section level2">
+<h2>Reshape</h2>
 </div>
 
     </div>
