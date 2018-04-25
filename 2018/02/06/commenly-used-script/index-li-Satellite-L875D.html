@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.40" />
+<meta name="generator" content="Hugo 0.39" />
 
 
 <title>Commenly-used Script - Jiang&#39;s Blog</title>
@@ -451,6 +451,8 @@ pd.merge(df, df2,
 <h2>Reshape</h2>
 <div id="r-6" class="section level3">
 <h3>R</h3>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>## [1] &quot;dimension1&quot; &quot;dimension2&quot; &quot;measure1&quot;   &quot;measure2&quot;</code></pre>
 <pre class="r"><code># wide to long
 df_reshape &lt;- df %&gt;% gather(c(&quot;measure1&quot;, &quot;measure2&quot;), 
                             key = &quot;measure&quot;, value = &quot;values&quot;)
@@ -483,14 +485,7 @@ df_reshape %&gt;%
 </div>
 <div id="python-6" class="section level3">
 <h3>Python</h3>
-<pre class="python"><code>df_reshape = pd.melt(df,
-                     id_vars=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                     value_vars=[&#39;measure1&#39;, &#39;measure2&#39;])
-(df_reshape.groupby([&#39;dimension1&#39;, &#39;dimension2&#39;, &#39;variable&#39;],
-                    as_index=False)
-           .value.sum()
-           .pivot_table(index=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                        columns=&#39;variable&#39;, values=&#39;value&#39;))</code></pre>
+<pre class="python"><code>print(&quot;coming soon&quot;)</code></pre>
 </div>
 </div>
 

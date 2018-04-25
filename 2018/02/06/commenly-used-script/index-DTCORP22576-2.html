@@ -67,22 +67,14 @@
     
 
     <div class="article-content">
-      <div id="TOC">
-<ul>
-<li><a href="#row-and-column">Row and Column</a></li>
-<li><a href="#missing-values">Missing Values</a></li>
-<li><a href="#unique">Unique</a></li>
-<li><a href="#level-count">Level Count</a></li>
-<li><a href="#summary">Summary</a></li>
-<li><a href="#merge">Merge</a></li>
-<li><a href="#reshape">Reshape</a></li>
-</ul>
-</div>
+      
 
 <p>I often use R, Python, SAS, SQL, and Bash in different
 tasks at the same time. To make the switch between different languages easier, I built a list of the commonly-used script for a quick reference.</p>
+
 <p>A simulated sample data set with missing values and duplicated values was used.</p>
-<pre class="r"><code>set.seed(1)
+
+<pre><code class="language-r">set.seed(1)
 N &lt;- 1000
 df &lt;- tibble(
 dimension1 = sample(c(&quot;I&quot;, &quot;II&quot;, &quot;III&quot;), N, replace = T),
@@ -100,7 +92,9 @@ df &lt;- as_tibble(lapply(df,
                        )
                 )
 
-head(df)</code></pre>
+head(df)
+</code></pre>
+
 <pre><code>## # A tibble: 6 x 4
 ##   dimension1 dimension2 measure1 measure2
 ##   &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -109,24 +103,40 @@ head(df)</code></pre>
 ## 3 II         B                 9        2
 ## 4 III        &lt;NA&gt;              5        4
 ## 5 &lt;NA&gt;       A                NA        9
-## 6 III        A                 1       NA</code></pre>
-<div id="row-and-column" class="section level2">
-<h2>Row and Column</h2>
-<div id="r" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># row count
-nrow(df) </code></pre>
-<pre><code>## [1] 1000</code></pre>
-<pre class="r"><code>df %&gt;% count()</code></pre>
+## 6 III        A                 1       NA
+</code></pre>
+
+<h2 id="row-and-column">Row and Column</h2>
+
+<h3 id="r">R</h3>
+
+<pre><code class="language-r"># row count
+nrow(df) 
+</code></pre>
+
+<pre><code>## [1] 1000
+</code></pre>
+
+<pre><code class="language-r">df %&gt;% count()
+</code></pre>
+
 <pre><code>## # A tibble: 1 x 1
 ##       n
 ##   &lt;int&gt;
-## 1  1000</code></pre>
-<pre class="r"><code># column names
-names(df) </code></pre>
-<pre><code>## [1] &quot;dimension1&quot; &quot;dimension2&quot; &quot;measure1&quot;   &quot;measure2&quot;</code></pre>
-<pre class="r"><code># data types
-lapply(df, class) </code></pre>
+## 1  1000
+</code></pre>
+
+<pre><code class="language-r"># column names
+names(df) 
+</code></pre>
+
+<pre><code>## [1] &quot;dimension1&quot; &quot;dimension2&quot; &quot;measure1&quot;   &quot;measure2&quot;
+</code></pre>
+
+<pre><code class="language-r"># data types
+lapply(df, class) 
+</code></pre>
+
 <pre><code>## $dimension1
 ## [1] &quot;character&quot;
 ## 
@@ -137,52 +147,62 @@ lapply(df, class) </code></pre>
 ## [1] &quot;integer&quot;
 ## 
 ## $measure2
-## [1] &quot;integer&quot;</code></pre>
-</div>
-<div id="python" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># row count
+## [1] &quot;integer&quot;
+</code></pre>
+
+<h3 id="python">Python</h3>
+
+<pre><code class="language-python"># row count
 df.shape[0]
 # column names
 list(df) 
 # data types
-df.dtypes  </code></pre>
-</div>
-<div id="sas" class="section level3">
-<h3>SAS</h3>
+df.dtypes  
+</code></pre>
+
+<h3 id="sas">SAS</h3>
+
 <pre><code>PROC CONTENTS DATA=df;
-RUN;</code></pre>
-</div>
-<div id="sql" class="section level3">
-<h3>SQL</h3>
-<pre class="sql"><code>/* row count */
+RUN;
+</code></pre>
+
+<h3 id="sql">SQL</h3>
+
+<pre><code class="language-sql">/* row count */
 SELECT COUNT(*) FROM df 
 
 /* column names */
 SELECT TOP 0 * FROM df 
 
 /* data types */  
-SELECT * FROM INFORMATION_SCHEMA.COLUMNS  </code></pre>
-</div>
-<div id="bash" class="section level3">
-<h3>Bash</h3>
-<pre class="bash"><code># row count
+SELECT * FROM INFORMATION_SCHEMA.COLUMNS  
+</code></pre>
+
+<h3 id="bash">Bash</h3>
+
+<pre><code class="language-bash"># row count
 wc -l  filename 
 
 # column names
-head -1 filename </code></pre>
-</div>
-</div>
-<div id="missing-values" class="section level2">
-<h2>Missing Values</h2>
-<div id="r-1" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># count missing by columns
-colSums(is.na(df)) </code></pre>
+head -1 filename 
+</code></pre>
+
+<h2 id="missing-values">Missing Values</h2>
+
+<h3 id="r-1">R</h3>
+
+<pre><code class="language-r"># count missing by columns
+colSums(is.na(df)) 
+</code></pre>
+
 <pre><code>## dimension1 dimension2   measure1   measure2 
-##        173        153        169        147</code></pre>
-<pre class="r"><code># drop rows with missing
-na.omit(df) </code></pre>
+##        173        153        169        147
+</code></pre>
+
+<pre><code class="language-r"># drop rows with missing
+na.omit(df) 
+</code></pre>
+
 <pre><code>## # A tibble: 492 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -196,9 +216,13 @@ na.omit(df) </code></pre>
 ##  8 II         C                 6        9
 ##  9 III        B                 1       10
 ## 10 III        A                 3        1
-## # ... with 482 more rows</code></pre>
-<pre class="r"><code># drop rows with all missing
-df[rowSums(!is.na(df)) &gt; 0, ] </code></pre>
+## # ... with 482 more rows
+</code></pre>
+
+<pre><code class="language-r"># drop rows with all missing
+df[rowSums(!is.na(df)) &gt; 0, ] 
+</code></pre>
+
 <pre><code>## # A tibble: 999 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -212,9 +236,13 @@ df[rowSums(!is.na(df)) &gt; 0, ] </code></pre>
 ##  8 II         B                 1        4
 ##  9 II         C                 6        8
 ## 10 I          &lt;NA&gt;              5       10
-## # ... with 989 more rows</code></pre>
-<pre class="r"><code># drop columns with all missing
-df[colSums(!is.na(df)) &gt; 0]</code></pre>
+## # ... with 989 more rows
+</code></pre>
+
+<pre><code class="language-r"># drop columns with all missing
+df[colSums(!is.na(df)) &gt; 0]
+</code></pre>
+
 <pre><code>## # A tibble: 1,000 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -228,9 +256,13 @@ df[colSums(!is.na(df)) &gt; 0]</code></pre>
 ##  8 II         B                 1        4
 ##  9 II         C                 6        8
 ## 10 I          &lt;NA&gt;              5       10
-## # ... with 990 more rows</code></pre>
-<pre class="r"><code># fill all missing by 0
-df %&gt;% replace(., is.na(.), 0)</code></pre>
+## # ... with 990 more rows
+</code></pre>
+
+<pre><code class="language-r"># fill all missing by 0
+df %&gt;% replace(., is.na(.), 0)
+</code></pre>
+
 <pre><code>## # A tibble: 1,000 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;
@@ -244,9 +276,13 @@ df %&gt;% replace(., is.na(.), 0)</code></pre>
 ##  8 II         B                1.       4.
 ##  9 II         C                6.       8.
 ## 10 I          0                5.      10.
-## # ... with 990 more rows</code></pre>
-<pre class="r"><code># fill missing by columns
-df %&gt;% replace_na(list(dimension1 = &quot;Unknown&quot;, measure1 = 0)) </code></pre>
+## # ... with 990 more rows
+</code></pre>
+
+<pre><code class="language-r"># fill missing by columns
+df %&gt;% replace_na(list(dimension1 = &quot;Unknown&quot;, measure1 = 0)) 
+</code></pre>
+
 <pre><code>## # A tibble: 1,000 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;    &lt;int&gt;
@@ -260,30 +296,33 @@ df %&gt;% replace_na(list(dimension1 = &quot;Unknown&quot;, measure1 = 0)) </cod
 ##  8 II         B                1.        4
 ##  9 II         C                6.        8
 ## 10 I          &lt;NA&gt;             5.       10
-## # ... with 990 more rows</code></pre>
-</div>
-<div id="python-1" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># count missing by columns
+## # ... with 990 more rows
+</code></pre>
+
+<h3 id="python-1">Python</h3>
+
+<pre><code class="language-python"># count missing by columns
 df.isnull().sum()
 # drop any missing
 df.dropna() 
 # drop rows with all missing
 df.dropna(how=&quot;all&quot;) 
 # drop columns with all missing
-df.dropna(axis=1, how=&#39;all&#39;) 
+df.dropna(axis=1, how='all') 
 # fill all missing by 0
 df.fillna(0)
 # fill missing by columns
-df.fillna(value = {&quot;dimension1&quot;: &quot;Unknown&quot;, &quot;measure1&quot;: 0})</code></pre>
-</div>
-</div>
-<div id="unique" class="section level2">
-<h2>Unique</h2>
-<div id="r-2" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># unique row
-df %&gt;% distinct()</code></pre>
+df.fillna(value = {&quot;dimension1&quot;: &quot;Unknown&quot;, &quot;measure1&quot;: 0})
+</code></pre>
+
+<h2 id="unique">Unique</h2>
+
+<h3 id="r-2">R</h3>
+
+<pre><code class="language-r"># unique row
+df %&gt;% distinct()
+</code></pre>
+
 <pre><code>## # A tibble: 747 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -297,9 +336,13 @@ df %&gt;% distinct()</code></pre>
 ##  8 II         B                 1        4
 ##  9 II         C                 6        8
 ## 10 I          &lt;NA&gt;              5       10
-## # ... with 737 more rows</code></pre>
-<pre class="r"><code># unique row by columns
-df %&gt;% distinct(dimension1, dimension2, .keep_all = T)</code></pre>
+## # ... with 737 more rows
+</code></pre>
+
+<pre><code class="language-r"># unique row by columns
+df %&gt;% distinct(dimension1, dimension2, .keep_all = T)
+</code></pre>
+
 <pre><code>## # A tibble: 16 x 4
 ##    dimension1 dimension2 measure1 measure2
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;
@@ -318,46 +361,54 @@ df %&gt;% distinct(dimension1, dimension2, .keep_all = T)</code></pre>
 ## 13 II         &lt;NA&gt;              8        3
 ## 14 &lt;NA&gt;       B                 5        5
 ## 15 &lt;NA&gt;       C                10       10
-## 16 &lt;NA&gt;       &lt;NA&gt;              6        9</code></pre>
-</div>
-<div id="python-2" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># unique row
+## 16 &lt;NA&gt;       &lt;NA&gt;              6        9
+</code></pre>
+
+<h3 id="python-2">Python</h3>
+
+<pre><code class="language-python"># unique row
 df.drop_duplicates()
 # unique row by columns
-df.drop_duplicates(subset=(&#39;dimension1&#39;, &#39;dimension2&#39;))</code></pre>
-</div>
-</div>
-<div id="level-count" class="section level2">
-<h2>Level Count</h2>
-<div id="r-3" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># distribution
-table(df$dimension1)</code></pre>
+df.drop_duplicates(subset=('dimension1', 'dimension2'))
+</code></pre>
+
+<h2 id="level-count">Level Count</h2>
+
+<h3 id="r-3">R</h3>
+
+<pre><code class="language-r"># distribution
+table(df$dimension1)
+</code></pre>
+
 <pre><code>## 
 ##   I  II III 
-## 266 285 276</code></pre>
-<pre class="r"><code># contingency table
-table(df$dimension1, df$dimension2)</code></pre>
+## 266 285 276
+</code></pre>
+
+<pre><code class="language-r"># contingency table
+table(df$dimension1, df$dimension2)
+</code></pre>
+
 <pre><code>##      
 ##        A  B  C
 ##   I   70 71 85
 ##   II  90 81 73
-##   III 85 67 77</code></pre>
-</div>
-<div id="python-3" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># distribution
+##   III 85 67 77
+</code></pre>
+
+<h3 id="python-3">Python</h3>
+
+<pre><code class="language-python"># distribution
 df.dimension1.value_counts()
 # contingency table
-pd.crosstab(df.dimension1, df.dimension2)</code></pre>
-</div>
-</div>
-<div id="summary" class="section level2">
-<h2>Summary</h2>
-<div id="r-4" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># summarize the total, percent, ratio, and ratio
+pd.crosstab(df.dimension1, df.dimension2)
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<h3 id="r-4">R</h3>
+
+<pre><code class="language-r"># summarize the total, percent, ratio, and ratio
 
 df %&gt;% 
   group_by(dimension1) %&gt;% 
@@ -372,8 +423,12 @@ df %&gt;%
   ) %&gt;% 
   mutate(
     ratio_relativity = ratio/(sum(measure1)/sum(measure2))
-  )</code></pre>
-<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
+  )
+</code></pre>
+
+<pre><code>## Warning: package 'bindrcpp' was built under R version 3.4.4
+</code></pre>
+
 <pre><code>## # A tibble: 4 x 7
 ##   dimension1 measure1 measure2 count measure1_percent ratio
 ##   &lt;chr&gt;         &lt;int&gt;    &lt;int&gt; &lt;int&gt;            &lt;dbl&gt; &lt;dbl&gt;
@@ -381,11 +436,12 @@ df %&gt;%
 ## 2 II             1248     1328   285            0.277 0.940
 ## 3 III            1200     1325   276            0.267 0.906
 ## 4 &lt;NA&gt;            882      757   173            0.196 1.17 
-## # ... with 1 more variable: ratio_relativity &lt;dbl&gt;</code></pre>
-</div>
-<div id="python-4" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># summarize the total, percent, ratio, and relativity
+## # ... with 1 more variable: ratio_relativity &lt;dbl&gt;
+</code></pre>
+
+<h3 id="python-4">Python</h3>
+
+<pre><code class="language-python"># summarize the total, percent, ratio, and relativity
 def oneway(g):
   return(
     pd.Series({
@@ -400,14 +456,14 @@ def oneway(g):
     })
   )
   
-df.groupby(&quot;dimension1&quot;).apply(oneway)</code></pre>
-</div>
-</div>
-<div id="merge" class="section level2">
-<h2>Merge</h2>
-<div id="r-5" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># join tables with different key names
+df.groupby(&quot;dimension1&quot;).apply(oneway)
+</code></pre>
+
+<h2 id="merge">Merge</h2>
+
+<h3 id="r-5">R</h3>
+
+<pre><code class="language-r"># join tables with different key names
 df2 &lt;- df %&gt;%
   group_by(dimension1, dimension2) %&gt;%
   summarise(
@@ -421,7 +477,9 @@ left_join(df, df2,
     &quot;dimension1&quot; = &quot;dimension3&quot;,
     &quot;dimension2&quot; = &quot;dimension4&quot;
   )
-)</code></pre>
+)
+</code></pre>
+
 <pre><code>## # A tibble: 1,000 x 6
 ##    dimension1 dimension2 measure1 measure2 measure3 measure4
 ##    &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;
@@ -435,23 +493,30 @@ left_join(df, df2,
 ##  8 II         B                 1        4      401      357
 ##  9 II         C                 6        8      311      346
 ## 10 I          &lt;NA&gt;              5       10      176      197
-## # ... with 990 more rows</code></pre>
-</div>
-<div id="python-5" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code># join tables with different key names
+## # ... with 990 more rows
+</code></pre>
+
+<h3 id="python-5">Python</h3>
+
+<pre><code class="language-python"># join tables with different key names
 pd.merge(df, df2,
   how=&quot;left&quot;, 
   left_on=[&quot;dimesnion1&quot;, &quot;dimesnion2&quot;],
   right_on=[&quot;dimesnion3&quot;, &quot;dimesnion4&quot;]
-)</code></pre>
-</div>
-</div>
-<div id="reshape" class="section level2">
-<h2>Reshape</h2>
-<div id="r-6" class="section level3">
-<h3>R</h3>
-<pre class="r"><code># wide to long
+)
+</code></pre>
+
+<h2 id="reshape">Reshape</h2>
+
+<h3 id="r-6">R</h3>
+
+<pre><code class="language-r">names(df)
+</code></pre>
+
+<pre><code>## [1] &quot;dimension1&quot; &quot;dimension2&quot; &quot;measure1&quot;   &quot;measure2&quot;
+</code></pre>
+
+<pre><code class="language-r"># wide to long
 df_reshape &lt;- df %&gt;% gather(c(&quot;measure1&quot;, &quot;measure2&quot;), 
                             key = &quot;measure&quot;, value = &quot;values&quot;)
 
@@ -459,7 +524,9 @@ df_reshape &lt;- df %&gt;% gather(c(&quot;measure1&quot;, &quot;measure2&quot;),
 df_reshape %&gt;%
   group_by(dimension1, dimension2, measure) %&gt;%
   summarise(values = sum(values, na.rm = T)) %&gt;% 
-  spread(key = measure, value = values)</code></pre>
+  spread(key = measure, value = values)
+</code></pre>
+
 <pre><code>## # A tibble: 16 x 4
 ## # Groups:   dimension1, dimension2 [16]
 ##    dimension1 dimension2 measure1 measure2
@@ -479,20 +546,13 @@ df_reshape %&gt;%
 ## 13 &lt;NA&gt;       A               258      222
 ## 14 &lt;NA&gt;       B               264      197
 ## 15 &lt;NA&gt;       C               240      205
-## 16 &lt;NA&gt;       &lt;NA&gt;            120      133</code></pre>
-</div>
-<div id="python-6" class="section level3">
-<h3>Python</h3>
-<pre class="python"><code>df_reshape = pd.melt(df,
-                     id_vars=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                     value_vars=[&#39;measure1&#39;, &#39;measure2&#39;])
-(df_reshape.groupby([&#39;dimension1&#39;, &#39;dimension2&#39;, &#39;variable&#39;],
-                    as_index=False)
-           .value.sum()
-           .pivot_table(index=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                        columns=&#39;variable&#39;, values=&#39;value&#39;))</code></pre>
-</div>
-</div>
+## 16 &lt;NA&gt;       &lt;NA&gt;            120      133
+</code></pre>
+
+<h3 id="python-6">Python</h3>
+
+<pre><code class="language-python">print(&quot;coming soon!&quot;)
+</code></pre>
 
     </div>
   </article>

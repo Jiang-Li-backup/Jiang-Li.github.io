@@ -483,14 +483,7 @@ df_reshape %&gt;%
 </div>
 <div id="python-6" class="section level3">
 <h3>Python</h3>
-<pre class="python"><code>df_reshape = pd.melt(df,
-                     id_vars=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                     value_vars=[&#39;measure1&#39;, &#39;measure2&#39;])
-(df_reshape.groupby([&#39;dimension1&#39;, &#39;dimension2&#39;, &#39;variable&#39;],
-                    as_index=False)
-           .value.sum()
-           .pivot_table(index=[&#39;dimension1&#39;, &#39;dimension2&#39;],
-                        columns=&#39;variable&#39;, values=&#39;value&#39;))</code></pre>
+<pre class="python"><code>print(&quot;coming soon!!!&quot;)</code></pre>
 </div>
 </div>
 

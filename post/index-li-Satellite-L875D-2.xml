@@ -54,5 +54,16 @@ A simulated sample data set with missing values and duplicated values was used.
 set.seed(1) N &amp;lt;- 1000 df &amp;lt;- tibble( dimension1 = sample(c(&amp;quot;I&amp;quot;, &amp;quot;II&amp;quot;, &amp;quot;III&amp;quot;), N, replace = T), dimension2 = sample(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;C&amp;quot;), N, replace = T), measure1 = sample(1:10, N, replace = T), measure2 = sample(1:10, N, replace = T) ) df &amp;lt;- as_tibble(lapply(df, function(r) r[sample(c(TRUE, NA), prob = c(0.</description>
     </item>
     
+    <item>
+      <title>Commenly-used Script</title>
+      <link>/2018/02/06/commenly-used-script/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/06/commenly-used-script/</guid>
+      <description>I often use R, Python, SAS, SQL, and Bash in different tasks at the same time. To make the switch between different languages easier, I built a list of the commonly-used script for a quick reference.
+A simulated sample data set with missing values and duplicated values was used.
+set.seed(1) N &amp;lt;- 1000 df &amp;lt;- tibble( dimension1 = sample(c(&amp;quot;I&amp;quot;, &amp;quot;II&amp;quot;, &amp;quot;III&amp;quot;), N, replace = T), dimension2 = sample(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;C&amp;quot;), N, replace = T), measure1 = sample(1:10, N, replace = T), measure2 = sample(1:10, N, replace = T) ) df &amp;lt;- as_tibble(lapply(df, function(r) r[sample(c(TRUE, NA), prob = c(0.</description>
+    </item>
+    
   </channel>
 </rss>
